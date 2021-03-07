@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { ManyToOne } from 'typeorm';
+import { Category } from './category.entity';
 
-@Entity('egp') // 'egp' - default // 'playlist' - support data
+@Entity('home_prod') // 'egp' - default // 'playlist' - support data
 export class Channel {
   @PrimaryGeneratedColumn()
   id: number;
@@ -37,4 +39,10 @@ export class Channel {
 
   @Column({ default: 1 })
   status: number;
+
+  @ManyToOne(type => Category, category => category.name, { eager: false })
+  @JoinColumn()
+  category: Category;
+
+  counter: number;
 }

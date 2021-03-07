@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Channel } from './entities/channel.entity';
 import { Category } from './entities/category.entity';
 
@@ -60,7 +60,10 @@ export class ChannelService {
   }
 
   public async parsePlaylist() {
-    const xmlData = fs.readFileSync('./data/playlist.m3u8', 'utf-8');
+    const xmlData = fs.readFileSync(
+      './data/edem_epg_ico_new_home240121.m3u8',
+      'utf-8',
+    );
     const data = parse(xmlData);
     const channels = Object.values(data.items);
     console.log(channels.length);
@@ -121,7 +124,7 @@ export class ChannelService {
         try {
           channel.lang = value['display-name'][0]['$'].lang;
           await this.channelRepository.save(channel);
-          console.log('save ' + count);
+          console.log(`save ${count}`);
         } catch (err) {
           console.log(err);
         }
@@ -188,5 +191,28 @@ export class ChannelService {
 
     console.log('YOUR DIE MESSAGE HERE');
     process.exit(1);
+  }
+
+  async findAll() {
+    const channelList = await this.channelRepository
+      .createQueryBuilder('channel')
+      .select(['channel.id', 'channel.name'])
+      .orderBy('category.sort', 'ASC')
+      .leftJoinAndMapOne(
+        'channel.category',
+        Category,
+        'category',
+        'category.name = channel.group',
+      )
+      // .limit(2)
+      .getMany();
+
+    let counter = 1;
+    channelList.forEach((channel: Channel, index) => {
+      channelList[index].counter = counter;
+      counter++;
+    });
+
+    return channelList;
   }
 }
