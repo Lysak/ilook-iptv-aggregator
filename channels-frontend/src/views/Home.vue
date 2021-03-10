@@ -1,80 +1,72 @@
 <template>
-    <div class="container-fluid">
+  <div class="container-fluid">
 
-      <div class="text-center">
-        <h1>Nest Customer List App Tutorial</h1>
-       <p> Built with Nest.js, Vue.js and MongoDB</p>
+    <div class="text-center">
+      <h1>Channel List</h1>
 
-       <div v-if="customers.length === 0">
-            <h2> No customer found at the moment </h2>
-        </div>
+      <div v-if="channels.length === 0">
+        <h2> No channel found at the moment </h2>
       </div>
-       
-      <!-- <div class="row"> -->
-        <div class="">
-            <table class="table table-bordered">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">Firstname</th>
-                  <th scope="col">Lastname</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="customer in customers" :key="customer._id">
-                  <td>{{ customer.first_name }}</td>
-                  <td>{{ customer.last_name }}</td>
-                  <td>{{ customer.email }}</td>
-                  <td>{{ customer.phone }}</td>
-                  <td>{{ customer.address }}</td>
-                  <td>{{ customer.description }}</td>
-                  <td>
-                    <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group" style="margin-bottom: 20px;">
-                                  <router-link :to="{name: 'Edit', params: {id: customer._id}}" class="btn btn-sm btn-outline-secondary">Edit Customer </router-link>
-                                  <button class="btn btn-sm btn-outline-secondary" v-on:click="deleteCustomer(customer._id)">Delete Customer</button>
-                                </div>
-                              </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-      <!-- </div> -->
     </div>
+
+    <div class="">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Counter in list</th>
+          <th scope="col">Name</th>
+          <th scope="col">Sort</th>
+          <th scope="col">category Name</th>
+          <th scope="col">category Sort</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="channel in channels" :key="channel.id">
+          <td>{{ channel.id }}</td>
+          <td>{{ channel.counter }}</td>
+          <td>{{ channel.name }}</td>
+          <td>{{ channel.sort }}</td>
+          <td>{{ channel.category.name }}</td>
+          <td>{{ channel.category.sort }}</td>
+          <td>{{ channel.status }}</td>
+          <td>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group" style="margin-bottom: 20px;">
+                <router-link :to="{name: 'Edit', params: {id: channel.id}}" class="btn btn-sm btn-outline-secondary">
+                  Edit Channel
+                </router-link>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
-import { server } from "../helper";
+import {server} from "@/helper";
 import axios from "axios";
 
 export default {
   data() {
     return {
-      customers: []
+      channels: []
     };
   },
   created() {
-    this.fetchCustomers();
+    this.fetchChannels();
   },
   methods: {
-    fetchCustomers() {
+    fetchChannels() {
       axios
-        .get(`${server.baseURL}/customer/customers`)
-        .then(data => (this.customers = data.data));
+          .get(`${server.baseURL}/channel/list`)
+          .then(data => (this.channels = data.data));
     },
-    deleteCustomer(id) {
-      axios
-        .delete(`${server.baseURL}/customer/delete?customerID=${id}`)
-        .then(data => {
-          console.log(data);
-          window.location.reload();
-        });
-    }
   }
 };
 </script>

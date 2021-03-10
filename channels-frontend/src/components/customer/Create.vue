@@ -43,33 +43,30 @@
 
 <script>
 import axios from "axios";
-import { server } from "../../helper";
+import { server } from "@/helper";
 import router from "../../router";
 export default {
   data() {
     return {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone: "",
-      address: "",
-      description: ""
+      counter: "",
+      name: "",
+      category_name: "",
+      category_sort: "",
+      status: "",
     };
   },
   methods: {
     createCustomer() {
       let customerData = {
-        first_name: this.first_name,
-        last_name: this.last_name,
-        email: this.email,
-        phone: this.phone,
-        address: this.address,
-        description: this.description
+        // id: this.id,
+        category_name: this.category.name,
+        category_sort: this.category.sort,
+        status: this.status,
       };
       this.__submitToServer(customerData);
     },
     __submitToServer(data) {
-      axios.post(`${server.baseURL}/customer/create`, data).then(data => {
+      axios.post(`${server.baseURL}/customer/create`, data).then(() => {
         router.push({ name: "home" });
       });
     }

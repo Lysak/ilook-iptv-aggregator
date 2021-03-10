@@ -1,91 +1,81 @@
 <template>
-   <div>
-        <h4 class="text-center mt-20">
-         <small>
-         <button class="btn btn-success" v-on:click="navigate()"> View All Customers </button>
-         </small>
-        </h4>
+  <div>
+    <h4 class="text-center mt-20">
+      <small>
+        <button class="btn btn-success" v-on:click="navigate()"> View All Channels</button>
+      </small>
+    </h4>
 
-        <div class="col-md-12 form-wrapper">
-          <h2> Edit Customer </h2>
-          <form id="create-post-form" @submit.prevent="editCustomer">
-               <div class="form-group col-md-12">
-                <label for="title"> First Name </label>
-                <input type="text" id="first_name" v-model="customer.first_name" name="title" class="form-control" placeholder="Enter firstname">
-               </div>
-
-               <div class="form-group col-md-12">
-                <label for="title"> Last Name </label>
-                <input type="text" id="last_name" v-model="customer.last_name" name="title" class="form-control" placeholder="Enter Last name">
-               </div>
-
-             <div class="form-group col-md-12">
-                <label for="title"> Email </label>
-                <input type="text" id="email" v-model="customer.email" name="title" class="form-control" placeholder="Enter email">
-            </div>
-
-            <div class="form-group col-md-12">
-                <label for="title"> Phone </label>
-                <input type="text" id="phone_number" v-model="customer.phone" name="title" class="form-control" placeholder="Enter Phone number">
-            </div>
-
-            <div class="form-group col-md-12">
-                <label for="title"> Address </label>
-                <input type="text" id="address" v-model="customer.address" name="title" class="form-control" placeholder="Enter Address">
-            </div>
-
-              <div class="form-group col-md-12">
-                  <label for="description"> Description </label>
-                  <input type="text" id="description" v-model="customer.description" name="description" class="form-control" placeholder="Enter Description">
-              </div>
-
-              <div class="form-group col-md-4 pull-right">
-                  <button class="btn btn-success" type="submit"> Edit Customer </button>
-              </div>          
-          </form>
+    <div class="col-md-12 form-wrapper">
+      <h2> Edit Channel </h2>
+      <form id="create-post-form" @submit.prevent="editChannel">
+        <div class="form-group col-md-12">
+          <label for="sort"> sort </label>
+          <input type="text" id="sort" v-model="channel.sort" name="sort" class="form-control"
+                 placeholder="Enter sort">
         </div>
+
+        <div class="form-group col-md-12">
+          <label for="category_sort"> category_sort </label>
+          <input type="text" id="category_sort" v-model="channel.category.sort" name="category_sort" class="form-control"
+                 placeholder="Enter category_sort">
+        </div>
+
+        <div class="form-group col-md-12">
+          <label for="status"> status </label>
+          <input type="text" id="status" v-model="channel.status" name="status" class="form-control"
+                 placeholder="Enter status">
+        </div>
+
+        <div class="form-group col-md-4 pull-right">
+          <button class="btn btn-success" type="submit"> Edit Channel</button>
+        </div>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
-import { server } from "../../helper";
+import {server} from "@/helper";
 import axios from "axios";
 import router from "../../router";
+
 export default {
   data() {
     return {
       id: 0,
-      customer: {}
+      channel: {}
     };
   },
   created() {
     this.id = this.$route.params.id;
-    this.getCustomer();
+    this.getChannel();
   },
   methods: {
-    editCustomer() {
-      let customerData = {
-        first_name: this.customer.first_name,
-        last_name: this.customer.last_name,
-        email: this.customer.email,
-        phone: this.customer.phone,
-        address: this.customer.address,
-        description: this.customer.description
+    editChannel() {
+      let channelData = {
+        sort: this.channel.sort,
+        category_sort: this.channel.category.sort,
+        status: this.channel.status,
       };
+      
+      console.log(channelData);
 
       axios
-        .put(
-          `${server.baseURL}/customer/update?customerID=${this.id}`,
-          customerData
-        )
-        .then(data => {
-          router.push({ name: "home" });
-        });
+          .put(
+              `${server.baseURL}/channel/update/${this.id}`,
+              channelData
+          )
+          .then(() => {
+            router.push({name: "home"});
+          });
     },
-    getCustomer() {
+    getChannel() {
       axios
-        .get(`${server.baseURL}/customer/customer/${this.id}`)
-        .then(data => (this.customer = data.data));
+          .get(`${server.baseURL}/channel/info/${this.id}`)
+          .then(data => (this.channel = data.data))
+          // .finally(() => console.log(this.channel, this.channel.category.sort))
+          ;
     },
     navigate() {
       router.go(-1);
