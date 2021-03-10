@@ -15,11 +15,11 @@
                  placeholder="Enter sort">
         </div>
 
-        <div class="form-group col-md-12">
-          <label for="category_sort"> category_sort </label>
-          <input type="text" id="category_sort" v-model="channel.category.sort" name="category_sort" class="form-control"
-                 placeholder="Enter category_sort">
-        </div>
+<!--        <div class="form-group col-md-12">-->
+<!--          <label for="category_sort"> category_sort </label>-->
+<!--          <input type="text" id="category_sort" v-model="channel.category.sort" name="category_sort" class="form-control"-->
+<!--                 placeholder="Enter category_sort">-->
+<!--        </div>-->
 
         <div class="form-group col-md-12">
           <label for="status"> status </label>
@@ -55,7 +55,7 @@ export default {
     editChannel() {
       let channelData = {
         sort: this.channel.sort,
-        category_sort: this.channel.category.sort,
+        // category_sort: this.channel.category.sort,
         status: this.channel.status,
       };
       

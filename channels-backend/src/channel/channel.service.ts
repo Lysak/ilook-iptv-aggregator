@@ -193,14 +193,18 @@ export class ChannelService {
     const channelList = await this.channelRepository
       .createQueryBuilder('channel')
       // .select(['channel.id', 'channel.name'])
-      .orderBy('category.sort', 'ASC')
+      .orderBy('channel.sort', 'DESC')
+      .addOrderBy('category.sort', 'ASC')
+      // .addOrderBy('channel.name', 'ASC')
+
+      .andWhere('channel.status = 1')
       .leftJoinAndMapOne(
         'channel.category',
         Category,
         'category',
         'category.name = channel.group',
       )
-      .limit(2)
+      // .limit(150)
       .getMany();
 
     let counter = 1;
@@ -213,17 +217,7 @@ export class ChannelService {
   }
 
   async findOne(id: string) {
-    return await this.channelRepository
-      .createQueryBuilder('channel')
-      // .select(['channel.id', 'channel.name'])
-      // .orderBy('category.sort', 'ASC')
-      .leftJoinAndMapOne(
-        'channel.category',
-        Category,
-        'category',
-        'category.name = channel.group',
-      )
-      .getOne();
+    return this.channelRepository.findOne(String(id));
   }
 
   async update(id: string, updateChannelDto: any) {
