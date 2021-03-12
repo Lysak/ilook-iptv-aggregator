@@ -14,19 +14,12 @@
           <input type="text" id="sort" v-model="channel.sort" name="sort" class="form-control"
                  placeholder="Enter sort">
         </div>
-
-<!--        <div class="form-group col-md-12">-->
-<!--          <label for="category_sort"> category_sort </label>-->
-<!--          <input type="text" id="category_sort" v-model="channel.category.sort" name="category_sort" class="form-control"-->
-<!--                 placeholder="Enter category_sort">-->
-<!--        </div>-->
-
         <div class="form-group col-md-12">
-          <label for="status"> status </label>
-          <input type="text" id="status" v-model="channel.status" name="status" class="form-control"
-                 placeholder="Enter status">
+          <template v-for="(channel, index) in channelStatus">
+            <label :key="index" for="channel.name">{{channel.name}}</label>
+            <input id="channel.name" :key="'key'+index" :value="channel.value" name="status" type="radio">
+          </template>
         </div>
-
         <div class="form-group col-md-4 pull-right">
           <button class="btn btn-success" type="submit"> Edit Channel</button>
         </div>
@@ -36,7 +29,8 @@
 </template>
 
 <script>
-import {server} from "@/helper";
+
+import {server, channelStatus, channelSort} from "@/helper";
 import axios from "axios";
 import router from "../../router";
 
@@ -44,7 +38,9 @@ export default {
   data() {
     return {
       id: 0,
-      channel: {}
+      channel: {},
+      channelStatus: channelStatus,
+      channelSort: channelSort,
     };
   },
   created() {

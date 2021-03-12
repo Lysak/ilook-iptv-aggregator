@@ -204,7 +204,7 @@ export class ChannelService {
         'category',
         'category.name = channel.group',
       )
-      // .limit(150)
+      .limit(150)
       .getMany();
 
     let counter = 1;
