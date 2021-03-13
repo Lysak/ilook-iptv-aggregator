@@ -7,8 +7,10 @@ export const channelStatus = [
     {name: 'Enable', value: 1},
 ];
 
-export const channelSort = {
-    1: 1,
-    // "0": "0",
-    // "-1": "-1",
-};
+export const channelSort = [
+    {value: -1},
+    {value: 0},
+    {value: 1},
+    {value: 2},
+    {value: 3},
+];
