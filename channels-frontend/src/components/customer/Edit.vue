@@ -14,12 +14,15 @@
           <input type="text" id="sort" v-model="channel.sort" name="sort" class="form-control"
                  placeholder="Enter sort">
         </div>
+
         <div class="form-group col-md-12">
-          <template v-for="(channel, index) in channelStatus">
-            <label :key="index" for="channel.name">{{channel.name}}</label>
-            <input id="channel.name" :key="'key'+index" :value="channel.value" name="status" type="radio">
+          <template v-for="(item, index) in channelStatus">
+            <label :key="index" :for="item.name"><span>{{item.name}}</span>
+              <input :id="item.name" :key="'key'+index" :value="item.value" name="status" type="radio" :checked="item.value === channel.status" v-model="channel.status">
+            </label>
           </template>
         </div>
+
         <div class="form-group col-md-4 pull-right">
           <button class="btn btn-success" type="submit"> Edit Channel</button>
         </div>
