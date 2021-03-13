@@ -198,13 +198,14 @@ export class ChannelService {
       // .addOrderBy('channel.name', 'ASC')
 
       .andWhere('channel.status = 1')
+      .andWhere('category.status = 1')
       .leftJoinAndMapOne(
         'channel.category',
         Category,
         'category',
         'category.name = channel.group',
       )
-      .limit(150)
+      .limit(300)
       .getMany();
 
     let counter = 1;

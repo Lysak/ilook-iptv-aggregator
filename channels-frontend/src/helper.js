@@ -1,5 +1,5 @@
 export const server = {
-    baseURL: 'http://localhost:3000'
+    baseURL: 'http://192.168.250.227:3000'
 }
 
 export const channelStatus = [
