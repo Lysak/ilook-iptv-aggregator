@@ -17,8 +17,8 @@
 
         <div class="form-group col-md-12">
           <template v-for="(item, index) in channelStatus">
-            <label :key="index" :for="item.name"><span>{{item.name}}</span>
-              <input :id="item.name" :key="'key'+index" :value="item.value" name="status" type="radio" :checked="item.value === channel.status" v-model="channel.status">
+            <label class="checkbox" :key="index" :for="item.name"><span>{{item.name}}</span>
+              <input :id="item.name"  :key="'key'+index" :value="item.value" name="status" type="radio" :checked="item.value === channel.status" v-model="channel.status">
             </label>
           </template>
         </div>

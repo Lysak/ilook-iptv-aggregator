@@ -2,3 +2,9 @@
     width: 500px;
     margin: 0 auto;
 }
+
+.checkbox {
+    border: 1px solid;
+    margin-right: 1em;
+    direction: rtl;
+}
